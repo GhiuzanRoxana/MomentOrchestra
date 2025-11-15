@@ -1,0 +1,31 @@
+{
+    "name": "moment-orchestra/orchestra-management",
+    "description": "Event management system for Moment Orchestra",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roxana",
+            "email": "contact@momentorchestra.ro"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "MomentOrchestra\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "Tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
