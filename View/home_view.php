@@ -1,14 +1,3 @@
-<?php
-require_once '../config.php';
-
-try {
-    $eventController = new EventController();
-    $events = $eventController->index();
-    $upcomingEvents = array_slice($events, 0, 3);
-} catch (Exception $e) {
-    $upcomingEvents = [];
-}
-?>
 <!DOCTYPE html>
 <html lang="ro">
 

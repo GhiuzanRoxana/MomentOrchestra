@@ -1,14 +1,3 @@
-<?php
-require_once '../config.php';
-
-try {
-    $eventController = new EventController();
-    $events = $eventController->index();
-} catch (Exception $e) {
-    $events = [];
-    $error = "Eroare la încărcarea evenimentelor.";
-}
-?>
 <!DOCTYPE html>
 <html lang="ro">
 
