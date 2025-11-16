@@ -34,9 +34,9 @@ class ReservationTest extends TestCase
         $eventData = [
             'title' => 'Reservation Test Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+1 month')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Test event for reservation',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
         $eventId = $this->eventModel->create($eventData);
 
@@ -62,15 +62,17 @@ class ReservationTest extends TestCase
             'role' => 'user'
         ];
         $userId = $this->userModel->create($userData);
+        $this->assertNotEmpty($userId, 'User should be created');
 
         $eventData = [
             'title' => 'Read Reservation Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+1 month')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Event for reading reservation',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
         $eventId = $this->eventModel->create($eventData);
+        $this->assertNotEmpty($eventId, 'Event should be created');
 
         $reservationData = [
             'id_user' => $userId,
@@ -79,11 +81,22 @@ class ReservationTest extends TestCase
             'status' => 'confirmed'
         ];
 
-        $this->reservationModel->create($reservationData);
-        $reservation = $this->reservationModel->read($userId . '_' . $eventId);
+        $createResult = $this->reservationModel->create($reservationData);
+        $this->assertTrue($createResult, 'Reservation should be created');
 
-        $this->assertNotEmpty($reservation);
+        $allReservations = $this->reservationModel->readAll();
+        $this->assertGreaterThan(0, count($allReservations), 'Should have at least one reservation');
+
+        $compositeId = $userId . '_' . $eventId;
+        $reservation = $this->reservationModel->read($compositeId);
+
+        if ($reservation === false) {
+            $this->fail("Failed to read reservation with ID: {$compositeId}. User: {$userId}, Event: {$eventId}");
+        }
+
+        $this->assertIsArray($reservation, 'Reservation should be returned as array');
         $this->assertEquals($userId, $reservation['id_user']);
+        $this->assertEquals($eventId, $reservation['id_event']);
     }
 
     public function testReadAllReservations()
@@ -107,9 +120,9 @@ class ReservationTest extends TestCase
         $eventData = [
             'title' => 'Delete Reservation Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+1 month')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Event for deleting reservation',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
         $eventId = $this->eventModel->create($eventData);
 

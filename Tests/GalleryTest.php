@@ -22,13 +22,13 @@ class GalleryTest extends TestCase
             'photo_path' => 'Images/gallery/test_photo_' . time() . '.jpg',
             'title' => 'Test Photo ' . time(),
             'description' => 'Test photo description',
-            'uploaded_by_user_id' => 'USER_test123'
+            'uploaded_by_user_id' => 'U1'
         ];
 
         $photoId = $this->galleryModel->create($photoData);
 
         $this->assertNotEmpty($photoId);
-        $this->assertStringStartsWith('PHOTO_', $photoId);
+        $this->assertStringContainsString('U1_', $photoId);
     }
 
     public function testReadGalleryPhoto()
@@ -37,7 +37,7 @@ class GalleryTest extends TestCase
             'photo_path' => 'Images/gallery/read_test_' . time() . '.jpg',
             'title' => 'Read Test Photo',
             'description' => 'Photo for reading test',
-            'uploaded_by_user_id' => 'USER_test123'
+            'uploaded_by_user_id' => 'U1'
         ];
 
         $photoId = $this->galleryModel->create($photoData);
@@ -60,7 +60,7 @@ class GalleryTest extends TestCase
             'photo_path' => 'Images/gallery/update_test_' . time() . '.jpg',
             'title' => 'Original Title',
             'description' => 'Original description',
-            'uploaded_by_user_id' => 'USER_test123'
+            'uploaded_by_user_id' => 'U1'
         ];
 
         $photoId = $this->galleryModel->create($photoData);
@@ -84,7 +84,7 @@ class GalleryTest extends TestCase
             'photo_path' => 'Images/gallery/delete_test_' . time() . '.jpg',
             'title' => 'Delete Test Photo',
             'description' => 'Photo to be deleted',
-            'uploaded_by_user_id' => 'USER_test123'
+            'uploaded_by_user_id' => 'U1'
         ];
 
         $photoId = $this->galleryModel->create($photoData);

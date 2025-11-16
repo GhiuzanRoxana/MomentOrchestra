@@ -14,26 +14,34 @@ class Gallery implements CrudInterface
     public function create(array $data)
     {
         $query = "INSERT INTO {$this->table} (id_user, photo_path, title, description, upload_date, uploaded_by_user_id) 
-                  VALUES (:id, :path, :title, :description, CURRENT_TIMESTAMP, :uploaded_by)";
+                  VALUES (:id_user, :path, :title, :description, CURRENT_TIMESTAMP, :uploaded_by)";
 
         $stmt = $this->db->prepare($query);
-        $id = 'PHOTO_' . uniqid();
+        $photoPath = $data['photo_path'];
 
         $stmt->execute([
-            ':id' => $id,
-            ':path' => $data['photo_path'],
+            ':id_user' => $data['uploaded_by_user_id'],
+            ':path' => $photoPath,
             ':title' => $data['title'],
             ':description' => $data['description'] ?? '',
             ':uploaded_by' => $data['uploaded_by_user_id']
         ]);
 
-        return $id;
+        return $data['uploaded_by_user_id'] . '_' . basename($photoPath);
     }
 
     public function read(string $id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id_user = :id");
-        $stmt->execute([':id' => $id]);
+        $parts = explode('_', $id, 2);
+        if (count($parts) !== 2) {
+            return false;
+        }
+
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id_user = :id_user AND photo_path LIKE :path");
+        $stmt->execute([
+            ':id_user' => $parts[0],
+            ':path' => '%' . $parts[1] . '%'
+        ]);
         return $stmt->fetch();
     }
 
@@ -49,14 +57,20 @@ class Gallery implements CrudInterface
 
     public function update(string $id, array $data): bool
     {
+        $parts = explode('_', $id, 2);
+        if (count($parts) !== 2) {
+            return false;
+        }
+
         $query = "UPDATE {$this->table} SET title = :title, description = :description 
-                  WHERE id_user = :id";
+                  WHERE id_user = :id_user AND photo_path LIKE :path";
 
         $stmt = $this->db->prepare($query);
         return $stmt->execute([
             ':title' => $data['title'],
             ':description' => $data['description'],
-            ':id' => $id
+            ':id_user' => $parts[0],
+            ':path' => '%' . $parts[1] . '%'
         ]);
     }
 
@@ -67,7 +81,15 @@ class Gallery implements CrudInterface
             unlink(PUBLIC_PATH . '/' . $photo['photo_path']);
         }
 
-        $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id_user = :id");
-        return $stmt->execute([':id' => $id]);
+        $parts = explode('_', $id, 2);
+        if (count($parts) !== 2) {
+            return false;
+        }
+
+        $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id_user = :id_user AND photo_path LIKE :path");
+        return $stmt->execute([
+            ':id_user' => $parts[0],
+            ':path' => '%' . $parts[1] . '%'
+        ]);
     }
 }

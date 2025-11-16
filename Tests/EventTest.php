@@ -21,9 +21,9 @@ class EventTest extends TestCase
         $eventData = [
             'title' => 'Test Concert ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+1 week')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Test concert description',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
@@ -37,9 +37,9 @@ class EventTest extends TestCase
         $eventData = [
             'title' => 'Read Test Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+2 weeks')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Read test description',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
@@ -61,9 +61,9 @@ class EventTest extends TestCase
         $eventData = [
             'title' => 'Update Test Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+3 weeks')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Original description',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
@@ -71,9 +71,9 @@ class EventTest extends TestCase
         $updateData = [
             'title' => 'Updated Event Title',
             'event_date' => $eventData['event_date'],
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'Updated description',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
 
         $result = $this->eventModel->update($eventId, $updateData);
@@ -89,9 +89,9 @@ class EventTest extends TestCase
         $eventData = [
             'title' => 'Delete Test Event ' . time(),
             'event_date' => date('Y-m-d H:i:s', strtotime('+4 weeks')),
-            'location_id' => 1,
+            'location_id' => 'L1',
             'description' => 'To be deleted',
-            'status_id' => 1
+            'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);

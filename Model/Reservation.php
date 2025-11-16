@@ -27,7 +27,12 @@ class Reservation implements CrudInterface
 
     public function read(string $id)
     {
-        list($user_id, $event_id) = explode('_', $id, 2);
+        if (strpos($id, '_EVT_') !== false) {
+            list($user_id, $event_id) = explode('_EVT_', $id, 2);
+            $event_id = 'EVT_' . $event_id;
+        } else {
+            list($user_id, $event_id) = explode('_', $id, 2);
+        }
 
         $query = "SELECT r.*, e.title, e.event_date, u.username 
                   FROM {$this->table} r
@@ -69,7 +74,12 @@ class Reservation implements CrudInterface
 
     public function delete(string $id): bool
     {
-        list($user_id, $event_id) = explode('_', $id, 2);
+        if (strpos($id, '_EVT_') !== false) {
+            list($user_id, $event_id) = explode('_EVT_', $id, 2);
+            $event_id = 'EVT_' . $event_id;
+        } else {
+            list($user_id, $event_id) = explode('_', $id, 2);
+        }
 
         $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id_user = :user_id AND id_event = :event_id");
         return $stmt->execute([':user_id' => $user_id, ':event_id' => $event_id]);
