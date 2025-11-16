@@ -44,9 +44,6 @@
                 <p class="hero-subtitle">Experiențe muzicale de neuitat</p>
                 <div class="hero-buttons">
                     <a href="events.php" class="btn btn-primary">Vezi Evenimente</a>
-                    <?php if (!isLoggedIn()): ?>
-                        <a href="register.php" class="btn btn-secondary">Înregistrare</a>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>

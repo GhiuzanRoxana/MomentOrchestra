@@ -150,10 +150,6 @@
                 <button type="submit" class="btn-login">Login</button>
             </form>
 
-            <div class="register-link">
-                Nu ai cont? <a href="register.php">Înregistrează-te</a>
-            </div>
-
             <div class="back-home">
                 <a href="index.php">← Înapoi la pagina principală</a>
             </div>

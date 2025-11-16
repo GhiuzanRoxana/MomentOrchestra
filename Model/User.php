@@ -67,13 +67,14 @@ class User implements CrudInterface
 
     public function login($username, $password)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE username = :username");
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
             return $user;
         }
+
         return false;
     }
 }
