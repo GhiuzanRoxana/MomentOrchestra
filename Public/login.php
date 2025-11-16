@@ -1,15 +1,30 @@
 <?php
+session_start();
 require_once '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userController = new UserController();
-    $result = $userController->login($_POST['username'], $_POST['password']);
+$error = '';
 
-    if ($result['success']) {
-        header('Location: index.php');
-        exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = clean($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if (!empty($username) && !empty($password)) {
+        $userModel = new User();
+        $user = $userModel->login($username, $password);
+
+        if ($user) {
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['full_name'] = $user['full_name'];
+
+            header('Location: index.php');
+            exit;
+        } else {
+            $error = 'Username sau parolă incorecte!';
+        }
     } else {
-        $error = $result['message'];
+        $error = 'Completează toate câmpurile!';
     }
 }
 

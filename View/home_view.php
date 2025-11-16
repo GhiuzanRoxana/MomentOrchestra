@@ -55,9 +55,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        Moment Orchestra este o platformă dedicată iubitorilor de muzică clasică
-                        și evenimente culturale de excepție. Oferim o experiență completă de
-                        management al evenimentelor, rezervări și galerii foto.
+                        Moment Orchestra este o platformă dedicată iubitorilor de muzică de petrcere si concerte
                     </p>
                     <p>
                         Cu o echipă de muzicieni profesioniști și organizatori dedicați,

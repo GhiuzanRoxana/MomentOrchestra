@@ -66,7 +66,7 @@
 }
 
 .carousel-control:hover {
-    background-color: rgba(233,69,96,0.9);
+    background-color:var(--highlight-color);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -109,7 +109,7 @@
 }
 
 .carousel-indicator.active {
-    background-color: #e94560;
+    background-color:var(--highlight-color);
     width: 30px;
     border-radius: 6px;
 }

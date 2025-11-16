@@ -226,7 +226,7 @@ section {
 }
 
 .link-external {
-    color: var(--highlight-color); /* ALBASTRU */
+    color: var(--highlight-color);
     text-decoration: none;
     font-weight: bold;
 }
@@ -355,7 +355,6 @@ section {
     margin-bottom: 20px;
 }
 
-/* ============ FOOTER NEGRU ============ */
 .main-footer {
     background-color: #000000;
     color: var(--text-light);

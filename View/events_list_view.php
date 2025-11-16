@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <style>
         .page-header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #000000ff, #000000ff);
             color: white;
             padding: 80px 0 60px;
             text-align: center;
@@ -36,7 +36,7 @@
         }
 
         .event-card-header {
-            background: linear-gradient(135deg, #e94560, #d63850);
+            background: linear-gradient(135deg, var(--highlight-color), var(--highlight-color));
             color: white;
             padding: 30px 25px;
         }
