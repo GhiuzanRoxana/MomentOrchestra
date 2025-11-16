@@ -25,7 +25,7 @@
                     <li><a href="gallery.php" class="active">Galerie</a></li>
                     <li><a href="reservations.php">Rezervări</a></li>
                     <?php if (isLoggedIn()): ?>
-                        <li><a href="logout.php">Logout</a></li>
+                        <li><a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
                     <?php else: ?>
                         <li><a href="login.php">Login</a></li>
                     <?php endif; ?>
@@ -48,7 +48,7 @@
 
     <section class="gallery-carousel-section">
         <div class="container">
-            <h2 class="section-title">Imagini Destacate</h2>
+            <h2 class="section-title">Galerie Evenimente</h2>
 
             <div id="gallery-carousel">
                 <?php if (!empty($photos)): ?>
@@ -66,23 +66,16 @@
 
     <section class="gallery-grid-section">
         <div class="container">
-            <h2 class="section-title">Toate Fotografiile</h2>
+            <h2 class="section-title">👥 Membri Formației</h2>
 
-            <?php if (isset($_GET['uploaded'])): ?>
-                <div style="background:#e8f5e9;color:#2e7d32;padding:15px;border-radius:8px;margin-bottom:30px;text-align:center;">
-                    ✓ Fotografie încărcată cu succes!
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($photos)): ?>
+            <?php if (!empty($memberPhotos)): ?>
                 <div class="gallery-grid">
-                    <?php foreach ($photos as $photo): ?>
+                    <?php foreach ($memberPhotos as $photo): ?>
                         <div class="gallery-item">
                             <img src="<?= htmlspecialchars($photo['photo_path']) ?>"
                                 alt="<?= htmlspecialchars($photo['title']) ?>">
                             <div class="gallery-overlay">
                                 <h3><?= htmlspecialchars($photo['title']) ?></h3>
-                                <p><?= date('d.m.Y', strtotime($photo['upload_date'])) ?></p>
                                 <?php if (!empty($photo['description'])): ?>
                                     <p><?= htmlspecialchars($photo['description']) ?></p>
                                 <?php endif; ?>
@@ -92,29 +85,8 @@
                 </div>
             <?php else: ?>
                 <div style="text-align:center;padding:60px 20px;color:#666;">
-                    <h3>Nu există fotografii în galerie</h3>
+                    <h3>Nu există fotografii cu membrii</h3>
                     <p>Revino curând pentru a vedea fotografii noi!</p>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isAdmin()): ?>
-                <div class="upload-section" style="display:block;margin-top:60px;">
-                    <h3>Upload Foto Nouă (Admin)</h3>
-                    <form method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>Selectează imagine:</label>
-                            <input type="file" name="photo" accept="image/*" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Titlu:</label>
-                            <input type="text" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Descriere:</label>
-                            <textarea name="description" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
-                    </form>
                 </div>
             <?php endif; ?>
         </div>

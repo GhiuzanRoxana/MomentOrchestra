@@ -71,8 +71,16 @@ class User implements CrudInterface
         $stmt->execute([':username' => $username]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password'])) {
-            return $user;
+        if ($user) {
+            if (password_get_info($user['password'])['algo'] === null) {
+                if ($password === $user['password']) {
+                    return $user;
+                }
+            } else {
+                if (password_verify($password, $user['password'])) {
+                    return $user;
+                }
+            }
         }
 
         return false;

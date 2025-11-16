@@ -1,19 +1,15 @@
 <?php
 require_once '../config.php';
 
-try {
-    $galleryController = new GalleryController();
-    $photos = $galleryController->index();
-} catch (Exception $e) {
-    $photos = [];
-}
+$galleryModel = new Gallery();
+$photos = $galleryModel->readAll();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isAdmin() && isset($_FILES['photo'])) {
-    $result = $galleryController->upload($_FILES['photo'], $_POST);
+$userModel = new User();
+$memberPhotos = [];
 
-    if ($result['success']) {
-        header('Location: gallery.php?uploaded=1');
-        exit;
+foreach ($photos as $photo) {
+    if (stripos($photo['id_user'], 'U') === 0 && strlen($photo['id_user']) <= 3) {
+        $memberPhotos[] = $photo;
     }
 }
 

@@ -72,45 +72,6 @@
         </div>
     </section>
 
-    <section class="events-preview">
-        <div class="container">
-            <h2 class="section-title">Evenimente Recente</h2>
-            <div class="table-responsive">
-                <table class="events-table">
-                    <thead>
-                        <tr>
-                            <th>Eveniment</th>
-                            <th>Dată</th>
-                            <th>Locație</th>
-                            <th>Status</th>
-                            <th>Acțiune</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($upcomingEvents)): ?>
-                            <?php foreach ($upcomingEvents as $event): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($event['title']) ?></td>
-                                    <td><?= date('d M Y', strtotime($event['event_date'])) ?></td>
-                                    <td><?= htmlspecialchars($event['location_name'] ?? 'N/A') ?></td>
-                                    <td><span class="badge badge-success"><?= htmlspecialchars($event['status_name'] ?? 'Activ') ?></span></td>
-                                    <td><a href="event_detail.php?id=<?= $event['id_event'] ?>" class="btn btn-small">Detalii</a></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="5" style="text-align:center;">Nu există evenimente disponibile</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-            <div class="text-center">
-                <a href="events.php" class="btn btn-primary">Vezi Toate Evenimentele</a>
-            </div>
-        </div>
-    </section>
-
     <section class="audio-section">
         <div class="container">
             <h2 class="section-title">Ascultă un fragment</h2>
