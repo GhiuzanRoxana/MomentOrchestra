@@ -2,13 +2,15 @@
 
 use PHPUnit\Framework\TestCase;
 
+if (!defined('DB_HOST')) {
+    require_once __DIR__ . '/../config.php';
+}
+
 class DatabaseTest extends TestCase
 {
 
     public function testDatabaseConnection()
     {
-        require_once __DIR__ . '/../config.php';
-
         $db = Database::getInstance();
 
         $this->assertInstanceOf(Database::class, $db);
@@ -16,8 +18,6 @@ class DatabaseTest extends TestCase
 
     public function testGetConnection()
     {
-        require_once __DIR__ . '/../config.php';
-
         $db = Database::getInstance();
         $connection = $db->getConnection();
 
@@ -26,8 +26,6 @@ class DatabaseTest extends TestCase
 
     public function testSingletonPattern()
     {
-        require_once __DIR__ . '/../config.php';
-
         $db1 = Database::getInstance();
         $db2 = Database::getInstance();
 
@@ -36,8 +34,6 @@ class DatabaseTest extends TestCase
 
     public function testDatabaseQuery()
     {
-        require_once __DIR__ . '/../config.php';
-
         $db = Database::getInstance();
         $connection = $db->getConnection();
 
@@ -49,8 +45,6 @@ class DatabaseTest extends TestCase
 
     public function testDatabaseTablesExist()
     {
-        require_once __DIR__ . '/../config.php';
-
         $db = Database::getInstance();
         $connection = $db->getConnection();
 
