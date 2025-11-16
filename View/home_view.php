@@ -41,7 +41,6 @@
         <div class="hero-overlay">
             <div class="container">
                 <h1 class="hero-title">Moment Orchestra</h1>
-                <p class="hero-subtitle">Experiențe muzicale de neuitat</p>
                 <div class="hero-buttons">
                     <a href="events.php" class="btn btn-primary">Vezi Evenimente</a>
                 </div>
@@ -66,7 +65,7 @@
                     </a>
                 </div>
                 <div class="about-image">
-                    <img src="Images/First.jpg" alt="Orchestra Moment">
+                    <img src="Images/eveniment1.jpg" alt="Orchestra Moment">
                 </div>
             </div>
         </div>
@@ -77,10 +76,10 @@
             <h2 class="section-title">Ascultă un fragment</h2>
             <div class="audio-player">
                 <audio controls>
-                    <source src="audio/music.mp3" type="audio/mpeg">
+                    <source src="audio/melodie.mpeg" type="audio/mpeg">
                     Browserul tău nu suportă redarea audio.
                 </audio>
-                <p class="audio-description">Fragment din concertul nostru de gală</p>
+                <p class="audio-description">Melodia noastră</p>
             </div>
         </div>
     </section>
@@ -102,12 +101,6 @@
                 <div class="feature-card">
                     <div class="feature-icon">🎭</div>
                     <h3>Evenimente Diverse</h3>
-                    <p>De la concerte simfonice la spectacole de cameră.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📸</div>
-                    <h3>Galerie Foto</h3>
-                    <p>Revizualizează momentele speciale din evenimentele noastre.</p>
                 </div>
             </div>
         </div>
@@ -118,7 +111,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Moment Orchestra</h3>
-                    <p>Creăm experiențe muzicale memorabile din 2015.</p>
+                    <p>Creăm experiențe muzicale memorabile din 2024</p>
                 </div>
                 <div class="footer-section">
                     <h3>Link-uri Utile</h3>
@@ -130,16 +123,17 @@
                 </div>
                 <div class="footer-section">
                     <h3>Contact</h3>
-                    <p>📧 contact@momentorchestra.ro</p>
-                    <p>📱 +40 123 456 789</p>
-                    <p>📍 București, România</p>
+                    <p>📧 orchestramoment@gmail.com</p>
+                    <p>📱 +40 (749) 315 987</p>
+                    <p>📍 Roman, România</p>
                 </div>
                 <div class="footer-section">
                     <h3>Social Media</h3>
                     <div class="social-links">
-                        <a href="#" title="Facebook">FB</a>
-                        <a href="#" title="Instagram">IG</a>
-                        <a href="#" title="YouTube">YT</a>
+                        <a href="#" title="Facebook">FB: https://www.facebook.com/profile.php?id=61568308408269</a>
+                        <a href="#" title="Instagram">IG: momentorchestra</a>
+                        <a href="#" title="YouTube">YT: @momentorchestra16
+                        </a>
                     </div>
                 </div>
             </div>

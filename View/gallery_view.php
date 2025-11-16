@@ -50,23 +50,35 @@
         <div class="container">
             <h2 class="section-title">Galerie Evenimente</h2>
 
+            <?php
+            $eventPhotos = array_filter($photos, function ($photo) {
+                return strpos(strtolower($photo['photo_path']), 'eveniment') !== false;
+            });
+            $eventPhotos = array_slice($eventPhotos, 0, 10);
+            ?>
+
             <div id="gallery-carousel">
-                <?php if (!empty($photos)): ?>
-                    <?php foreach (array_slice($photos, 0, 5) as $photo): ?>
-                        <img src="<?= htmlspecialchars($photo['photo_path']) ?>"
-                            alt="<?= htmlspecialchars($photo['title']) ?>"
-                            data-caption="<?= htmlspecialchars($photo['title']) ?>">
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <img src="Images/First.jpg" alt="Moment Orchestra" data-caption="Moment Orchestra">
-                <?php endif; ?>
+                <?php foreach ($eventPhotos as $photo): ?>
+                    <div
+                        data-carousel-image="<?= htmlspecialchars($photo['photo_path']) ?>"
+                        data-caption="<?= htmlspecialchars($photo['title']) ?>">
+                    </div>
+                <?php endforeach; ?>
             </div>
+
         </div>
     </section>
 
     <section class="gallery-grid-section">
         <div class="container">
             <h2 class="section-title">👥 Membri Formației</h2>
+
+            <?php
+            $memberPhotos = array_filter($photos, function ($photo) {
+                $file = strtolower($photo['photo_path']);
+                return strpos($file, 'eveniment') === false && strpos($file, 'first') === false;
+            });
+            ?>
 
             <?php if (!empty($memberPhotos)): ?>
                 <div class="gallery-grid">
@@ -89,6 +101,7 @@
                     <p>Revino curând pentru a vedea fotografii noi!</p>
                 </div>
             <?php endif; ?>
+
         </div>
     </section>
 
@@ -120,15 +133,20 @@
     </footer>
 
     <script src="js/carousel.js"></script>
-    <script>
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
 
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
         });
     </script>
+
 </body>
 
 </html>
