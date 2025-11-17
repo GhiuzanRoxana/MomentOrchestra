@@ -133,9 +133,6 @@
                                     📅 <?= date('d F Y, H:i', strtotime($reservation['event_date'])) ?>
                                 </div>
                                 <div class="detail-item">
-                                    💰 <?= number_format($reservation['price'], 2) ?> RON
-                                </div>
-                                <div class="detail-item">
                                     ✅ Status: <?= htmlspecialchars($reservation['status']) ?>
                                 </div>
                                 <div class="detail-item">
@@ -145,10 +142,6 @@
                         </div>
 
                         <div class="reservation-actions">
-                            <a href="event_detail.php?id=<?= $reservation['id_event'] ?>"
-                                class="btn btn-primary">
-                                Vezi Detalii
-                            </a>
                             <form method="POST" onsubmit="return confirm('Sigur vrei să anulezi rezervarea?');">
                                 <input type="hidden" name="cancel_id" value="<?= $reservation['id_user'] ?>_<?= $reservation['id_event'] ?>">
                                 <button type="submit" name="cancel" class="btn-cancel">

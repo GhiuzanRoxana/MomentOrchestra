@@ -54,16 +54,18 @@
             $eventPhotos = array_filter($photos, function ($photo) {
                 return strpos(strtolower($photo['photo_path']), 'eveniment') !== false;
             });
-            $eventPhotos = array_slice($eventPhotos, 0, 10);
             ?>
 
             <div id="gallery-carousel">
-                <?php foreach ($eventPhotos as $photo): ?>
-                    <div
-                        data-carousel-image="<?= htmlspecialchars($photo['photo_path']) ?>"
-                        data-caption="<?= htmlspecialchars($photo['title']) ?>">
-                    </div>
-                <?php endforeach; ?>
+                <?php if (!empty($eventPhotos)): ?>
+                    <?php foreach ($eventPhotos as $photo): ?>
+                        <img src="<?= htmlspecialchars($photo['photo_path']) ?>"
+                            alt="<?= htmlspecialchars($photo['title']) ?>"
+                            data-caption="<?= htmlspecialchars($photo['title']) ?>">
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <img src="Images/First.jpg" alt="Orchestra Moment" data-caption="Orchestra Moment">
+                <?php endif; ?>
             </div>
 
         </div>

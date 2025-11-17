@@ -3,275 +3,225 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($event['title']) ?> - Moment Orchestra</title>
+    <title>Rezervare - Moment Orchestra</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <style>
-        .event-detail-header {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: white;
-            padding: 100px 0 60px;
-        }
-
-        .event-detail-header h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
-        }
-
-        .event-meta {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            font-size: 18px;
-            opacity: 0.9;
-        }
-
-        .event-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .event-detail-content {
-            padding: 60px 0;
-        }
-
-        .event-info-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .event-description {
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .event-description h2 {
-            color: #1a1a2e;
-            margin-bottom: 20px;
-        }
-
-        .event-description p {
-            line-height: 1.8;
-            color: #444;
-            font-size: 16px;
-        }
-
-        .event-sidebar {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-        }
-
-        .sidebar-section {
+        .form-group {
             margin-bottom: 25px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #eee;
         }
 
-        .sidebar-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .sidebar-section h3 {
-            color: #1a1a2e;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
+        .form-group label {
+            display: block;
             margin-bottom: 10px;
+            font-weight: 700;
+            color: #333;
+            font-size: 15px;
         }
 
-        .reserve-form input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .btn-reserve {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 15px;
-            background: #e94560;
-            color: white;
-            border: none;
-            border-radius: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: 600;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .info-box {
+            background: #fff9e6;
+            border: 1px solid #ffe066;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .success-box {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .error-box {
+            background: #ffe6e6;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #00d4ff;
+            color: #000;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .btn-reserve:hover {
-            background: #d63850;
+        .btn-submit:hover {
+            background: #00bfff;
             transform: translateY(-2px);
         }
 
-        .success-message {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 15px;
+        .date-header {
+            background: #f0f9ff;
+            border-left: 4px solid #00d4ff;
+            padding: 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .error-message {
-            background: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .event-info-grid {
-                grid-template-columns: 1fr;
-            }
+            margin-bottom: 30px;
         }
     </style>
 </head>
 
 <body>
+    <?php include 'header.php'; ?>
 
-    <header class="main-header">
+    <section style="padding:80px 0;background:#f4f4f4;">
         <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <h2>🎼 Moment Orchestra</h2>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="index.php">Acasă</a></li>
-                    <li><a href="events.php" class="active">Evenimente</a></li>
-                    <li><a href="gallery.php">Galerie</a></li>
-                    <li><a href="reservations.php">Rezervări</a></li>
-                    <?php if (isLoggedIn()): ?>
-                        <li><a href="logout.php">Logout</a></li>
-                    <?php else: ?>
-                        <li><a href="login.php">Login</a></li>
-                    <?php endif; ?>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </div>
-    </header>
+            <div class="form-container">
 
-    <section class="event-detail-header">
-        <div class="container">
-            <h1><?= htmlspecialchars($event['title']) ?></h1>
-            <div class="event-meta">
-                <div class="event-meta-item">
-                    📅 <?= date('d F Y, H:i', strtotime($event['event_date'])) ?>
-                </div>
-                <div class="event-meta-item">
-                    📍 <?= htmlspecialchars($event['location_name'] ?? 'Locație necunoscută') ?>
-                </div>
-                <div class="event-meta-item">
-                    ✨ <?= htmlspecialchars($event['status_name'] ?? 'Activ') ?>
-                </div>
-            </div>
-        </div>
-    </section>
+                <?php if ($success): ?>
+                    <div class="success-box">
+                        <h2 style="margin:0 0 15px 0;">✓ Cerere de Rezervare Trimisă!</h2>
+                        <p style="margin:0 0 10px 0;">Rezervarea ta este în așteptare.</p>
+                        <p style="margin:0;">Adminul va verifica și confirma în curând.</p>
+                    </div>
+                    <div style="text-align:center;margin-top:30px;">
+                        <a href="reservations.php" style="display:inline-block;background:#00d4ff;color:#000;padding:15px 40px;border-radius:30px;text-decoration:none;font-weight:bold;margin-right:15px;">
+                            Vezi Rezervările Mele
+                        </a>
+                        <a href="events.php" style="display:inline-block;background:#666;color:white;padding:15px 40px;border-radius:30px;text-decoration:none;font-weight:bold;">
+                            Înapoi la Date
+                        </a>
+                    </div>
+                <?php else: ?>
 
-    <section class="event-detail-content">
-        <div class="container">
-            <?php if (isset($success)): ?>
-                <div class="success-message"><?= $success ?></div>
-            <?php endif; ?>
+                    <h1 style="text-align:center;margin-bottom:10px;">📩 Formular de Rezervare</h1>
+                    <p style="text-align:center;color:#666;margin-bottom:40px;">Completează detaliile pentru a rezerva data</p>
 
-            <?php if (isset($error)): ?>
-                <div class="error-message"><?= $error ?></div>
-            <?php endif; ?>
-
-            <div class="event-info-grid">
-                <div class="event-description">
-                    <h2>Despre eveniment</h2>
-                    <p><?= nl2br(htmlspecialchars($event['description'] ?? 'Fără descriere disponibilă.')) ?></p>
-                </div>
-
-                <div class="event-sidebar">
-                    <div class="sidebar-section">
-                        <h3>Detalii</h3>
-                        <div class="info-row">
-                            <strong>Data:</strong>
-                            <span><?= date('d.m.Y', strtotime($event['event_date'])) ?></span>
-                        </div>
-                        <div class="info-row">
-                            <strong>Ora:</strong>
-                            <span><?= date('H:i', strtotime($event['event_date'])) ?></span>
-                        </div>
-                        <div class="info-row">
-                            <strong>Locație:</strong>
-                            <span><?= htmlspecialchars($event['location_name'] ?? 'N/A') ?></span>
-                        </div>
-                        <?php if (!empty($event['city'])): ?>
-                            <div class="info-row">
-                                <strong>Oraș:</strong>
-                                <span><?= htmlspecialchars($event['city']) ?></span>
-                            </div>
-                        <?php endif; ?>
+                    <div class="date-header">
+                        <h3 style="color:#00d4ff;margin:0 0 5px 0;font-size:24px;">📅 <?= htmlspecialchars($event['title']) ?></h3>
+                        <p style="margin:0;color:#666;">Data selectată pentru evenimentul tău</p>
                     </div>
 
-                    <?php if (isLoggedIn()): ?>
-                        <div class="sidebar-section">
-                            <h3>Rezervă acum</h3>
-                            <form method="POST" class="reserve-form">
-                                <input type="number" name="price" placeholder="Preț (opțional)" min="0" step="0.01">
-                                <button type="submit" class="btn-reserve">Rezervă Bilet</button>
-                            </form>
-                        </div>
-                    <?php else: ?>
-                        <div class="sidebar-section">
-                            <h3>Rezervă acum</h3>
-                            <p style="margin-bottom:15px;">Pentru a face o rezervare, trebuie să fii autentificat.</p>
-                            <a href="login.php" class="btn btn-primary" style="display:block;text-align:center;">Login</a>
+                    <?php if ($error): ?>
+                        <div class="error-box">
+                            ⚠️ <?= htmlspecialchars($error) ?>
                         </div>
                     <?php endif; ?>
-                </div>
-            </div>
 
-            <div style="text-align:center;">
-                <a href="events.php" class="btn btn-secondary">← Înapoi la evenimente</a>
+                    <form method="POST" id="reservationForm">
+
+                        <div class="form-group">
+                            <label>Tip Eveniment *</label>
+                            <select name="event_type" required>
+                                <option value="">Selectează tipul evenimentului</option>
+                                <option value="Nuntă">💍 Nuntă</option>
+                                <option value="Botez">👶 Botez</option>
+                                <option value="Aniversare">🎂 Aniversare</option>
+                                <option value="Logodnă">💐 Logodnă</option>
+                                <option value="Petrecere Privată">🎉 Petrecere Privată</option>
+                                <option value="Eveniment Corporativ">🏢 Eveniment Corporativ</option>
+                                <option value="Concert Privat">🎵 Concert Privat</option>
+                                <option value="Altele">📝 Altele</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Locația Evenimentului *</label>
+                            <input type="text" name="location" required
+                                placeholder="ex: Restaurant Elite, Roman, Neamț">
+                            <small>📍 Unde se va desfășura evenimentul</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ora de Începere *</label>
+                            <input type="time" name="event_time" required>
+                            <small>🕐 La ce oră începe evenimentul</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Avans (RON) *</label>
+                            <input type="number" name="price" required min="1000" step="100"
+                                placeholder="Minim 1000 RON">
+                            <small>💰 Avansul minim este de 1000 RON</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Număr Invitați (estimativ)</label>
+                            <input type="number" name="guests" min="10" placeholder="ex: 100">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Detalii Suplimentare *</label>
+                            <textarea name="details" rows="5" required
+                                placeholder="Descrie evenimentul: stil muzical preferat, cerințe speciale, program aproximativ, etc."></textarea>
+                        </div>
+
+                        <div class="info-box">
+                            <p style="margin:0;color:#666;font-size:14px;line-height:1.6;">
+                                <strong>ℹ️ Notă Importantă:</strong><br>
+                                • Rezervarea va fi <strong>în așteptare</strong> până la confirmarea adminului<br>
+                                • Vei fi contactat în maximum 24h pentru confirmare<br>
+                                • Avansul se achită după confirmarea adminului
+                            </p>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            📩 Trimite Cerere de Rezervare
+                        </button>
+                    </form>
+
+                    <div style="text-align:center;margin-top:25px;">
+                        <a href="events.php" style="color:#666;text-decoration:none;">← Înapoi la date disponibile</a>
+                    </div>
+
+                <?php endif; ?>
             </div>
         </div>
     </section>
 
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Moment Orchestra</h3>
-                    <p>Creăm experiențe muzicale memorabile.</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Moment Orchestra</p>
-            </div>
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 
     <script>
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+        document.getElementById('reservationForm')?.addEventListener('submit', function(e) {
+            const price = parseInt(document.querySelector('input[name="price"]').value);
+            if (price < 1000) {
+                e.preventDefault();
+                alert('⚠️ Avansul minim este de 1000 RON!');
+            }
         });
     </script>
 </body>

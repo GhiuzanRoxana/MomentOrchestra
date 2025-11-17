@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evenimente - Moment Orchestra</title>
+    <title>Date Disponibile - Moment Orchestra</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
     <style>
@@ -17,7 +17,7 @@
 
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 30px;
             padding: 60px 0;
         }
@@ -36,56 +36,80 @@
         }
 
         .event-card-header {
-            background: linear-gradient(135deg, var(--highlight-color), var(--highlight-color));
-            color: white;
-            padding: 30px 25px;
+            background: linear-gradient(135deg, #00d4ff, #00bfff);
+            color: #000;
+            padding: 40px 25px;
+            text-align: center;
         }
 
         .event-card-header h3 {
-            margin: 0 0 10px 0;
-            font-size: 22px;
-        }
-
-        .event-date {
-            font-size: 14px;
-            opacity: 0.9;
+            margin: 0;
+            font-size: 26px;
+            font-weight: bold;
         }
 
         .event-card-body {
-            padding: 25px;
-        }
-
-        .event-info {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #666;
-        }
-
-        .event-description {
-            color: #444;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            padding: 30px 25px;
+            text-align: center;
         }
 
         .event-status {
             display: inline-block;
-            padding: 5px 15px;
+            padding: 10px 25px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 600;
-        }
-
-        .status-active {
             background: #e8f5e9;
             color: #2e7d32;
+            margin-bottom: 25px;
+        }
+
+        .btn-reserve {
+            display: inline-block;
+            width: 100%;
+            background: #00d4ff;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid #00d4ff;
+            font-size: 16px;
+        }
+
+        .btn-reserve:hover {
+            background: transparent;
+            color: #00d4ff;
+            transform: scale(1.05);
+        }
+
+        .btn-login {
+            display: inline-block;
+            width: 100%;
+            background: #666;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .btn-login:hover {
+            background: #555;
         }
 
         .no-events {
             text-align: center;
             padding: 100px 20px;
             color: #666;
+            background: #f9f9f9;
+            border-radius: 15px;
+            margin: 60px 0;
         }
     </style>
 </head>
@@ -104,7 +128,7 @@
                     <li><a href="gallery.php">Galerie</a></li>
                     <li><a href="reservations.php">Rezervări</a></li>
                     <?php if (isLoggedIn()): ?>
-                        <li><a href="logout.php">Logout</a></li>
+                        <li><a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['username']) ?>)</a></li>
                     <?php else: ?>
                         <li><a href="login.php">Login</a></li>
                     <?php endif; ?>
@@ -120,8 +144,8 @@
 
     <section class="page-header">
         <div class="container">
-            <h1>Evenimente Moment Orchestra</h1>
-            <p>Descoperă concertele și evenimentele noastre viitoare</p>
+            <h1>📅 Date Disponibile</h1>
+            <p>Rezervă Orchestra Moment pentru evenimentul tău</p>
         </div>
     </section>
 
@@ -133,41 +157,33 @@
                         <div class="event-card">
                             <div class="event-card-header">
                                 <h3><?= htmlspecialchars($event['title']) ?></h3>
-                                <div class="event-date">
-                                    📅 <?= date('d F Y, H:i', strtotime($event['event_date'])) ?>
-                                </div>
                             </div>
                             <div class="event-card-body">
-                                <div class="event-info">
-                                    📍 <?= htmlspecialchars($event['location_name'] ?? 'Locație necunoscută') ?>
-                                    <?php if (!empty($event['city'])): ?>
-                                        , <?= htmlspecialchars($event['city']) ?>
-                                    <?php endif; ?>
-                                </div>
+                                <span class="event-status">
+                                    ✓ Disponibil
+                                </span>
 
-                                <?php if (!empty($event['description'])): ?>
-                                    <p class="event-description">
-                                        <?= htmlspecialchars(substr($event['description'], 0, 150)) ?>...
-                                    </p>
+                                <?php if (isLoggedIn()): ?>
+                                    <a href="event_detail.php?id=<?= $event['id_event'] ?>" class="btn-reserve">
+                                        📩 Rezervă Data
+                                    </a>
+                                <?php else: ?>
+                                    <a href="login.php" class="btn-login">
+                                        🔒 Login pentru Rezervare
+                                    </a>
                                 <?php endif; ?>
-
-                                <div style="margin-bottom: 15px;">
-                                    <span class="event-status status-active">
-                                        <?= htmlspecialchars($event['status_name'] ?? 'Activ') ?>
-                                    </span>
-                                </div>
-
-                                <a href="event_detail.php?id=<?= $event['id_event'] ?>" class="btn btn-primary">
-                                    Vezi Detalii
-                                </a>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
                 <div class="no-events">
-                    <h2>Nu există evenimente disponibile momentan</h2>
-                    <p>Revino curând pentru a descoperi evenimente noi!</p>
+                    <h2>📅 Nu există date disponibile momentan</h2>
+                    <p>Toate datele sunt rezervate. Contactează-ne pentru mai multe informații!</p>
+                    <p style="margin-top:20px;">
+                        <strong>📧 contact@momentorchestra.ro</strong> |
+                        <strong>📱 +40 123 456 789</strong>
+                    </p>
                 </div>
             <?php endif; ?>
         </div>
