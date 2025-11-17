@@ -35,7 +35,7 @@ function isLoggedIn()
 
 function isAdmin()
 {
-    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'sef_orchestra';
 }
 
 function clean($data)

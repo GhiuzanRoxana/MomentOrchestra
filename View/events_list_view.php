@@ -163,10 +163,14 @@
                                     ✓ Disponibil
                                 </span>
 
-                                <?php if (isLoggedIn()): ?>
+                                <?php if (isLoggedIn() && !isAdmin()): ?>
                                     <a href="event_detail.php?id=<?= $event['id_event'] ?>" class="btn-reserve">
                                         📩 Rezervă Data
                                     </a>
+                                <?php elseif (isAdmin()): ?>
+                                    <div style="padding:15px;background:#f0f0f0;border-radius:10px;text-align:center;color:#666;">
+                                        ℹ️ Admin - Nu poți face rezervări
+                                    </div>
                                 <?php else: ?>
                                     <a href="login.php" class="btn-login">
                                         🔒 Login pentru Rezervare
