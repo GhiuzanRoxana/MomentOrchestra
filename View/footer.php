@@ -3,7 +3,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Moment Orchestra</h3>
-                <p>Creăm experiențe muzicale memorabile din 2015.</p>
+                <p>Creăm experiențe muzicale memorabile din 2024.</p>
             </div>
             <div class="footer-section">
                 <h3>Link-uri Utile</h3>
@@ -17,7 +17,7 @@
                 <h3>Contact</h3>
                 <p>📧 contact@momentorchestra.ro</p>
                 <p>📱 +40 123 456 789</p>
-                <p>📍 București, România</p>
+                <p>📍 Roman, România</p>
             </div>
             <div class="footer-section">
                 <h3>Social Media</h3>
