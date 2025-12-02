@@ -11,31 +11,6 @@ class UserController extends BaseController
         $this->userModel = new User();
     }
 
-    public function register($data)
-    {
-        try {
-            $this->validate($data, [
-                'username' => 'required',
-                'password' => 'required',
-                'email' => 'required',
-                'full_name' => 'required'
-            ]);
-
-            $cleanData = [
-                'username' => $this->sanitize($data['username']),
-                'password' => $data['password'],
-                'email' => $this->sanitize($data['email']),
-                'full_name' => $this->sanitize($data['full_name']),
-                'role' => 'user'
-            ];
-
-            $userId = $this->userModel->create($cleanData);
-            return ['success' => true, 'user_id' => $userId];
-        } catch (ValidationException $e) {
-            return ['success' => false, 'errors' => json_decode($e->getMessage(), true)];
-        }
-    }
-
     public function login($username, $password)
     {
         $user = $this->userModel->login($username, $password);

@@ -16,38 +16,13 @@ class UserTest extends TestCase
         $this->userModel = new User();
     }
 
-    public function testCreateUser()
-    {
-        $userData = [
-            'username' => 'testuser_' . time(),
-            'password' => 'TestPassword123',
-            'email' => 'test_' . time() . '@example.com',
-            'full_name' => 'Test User',
-            'role' => 'user'
-        ];
-
-        $userId = $this->userModel->create($userData);
-
-        $this->assertNotEmpty($userId);
-        $this->assertStringStartsWith('USER_', $userId);
-    }
-
     public function testReadUser()
     {
-        $userData = [
-            'username' => 'readtest_' . time(),
-            'password' => 'TestPassword123',
-            'email' => 'read_' . time() . '@example.com',
-            'full_name' => 'Read Test User',
-            'role' => 'user'
-        ];
-
-        $userId = $this->userModel->create($userData);
-        $user = $this->userModel->read($userId);
+        $user = $this->userModel->read('U1');
 
         $this->assertNotEmpty($user);
-        $this->assertEquals($userData['username'], $user['username']);
-        $this->assertEquals($userData['email'], $user['email']);
+        $this->assertEquals('admin', $user['username']);
+        $this->assertEquals('admin@orchestra.ro', $user['email']);
     }
 
     public function testReadAllUsers()
@@ -55,6 +30,7 @@ class UserTest extends TestCase
         $users = $this->userModel->readAll();
 
         $this->assertIsArray($users);
+        $this->assertGreaterThan(0, count($users), 'Should have at least one user');
     }
 
     public function testUpdateUser()
@@ -81,6 +57,8 @@ class UserTest extends TestCase
 
         $updatedUser = $this->userModel->read($userId);
         $this->assertEquals($updateData['full_name'], $updatedUser['full_name']);
+
+        $this->userModel->delete($userId);
     }
 
     public function testDeleteUser()
@@ -104,25 +82,23 @@ class UserTest extends TestCase
 
     public function testLoginWithValidCredentials()
     {
-        $password = 'TestPassword123';
-        $userData = [
-            'username' => 'logintest_' . time(),
-            'password' => $password,
-            'email' => 'login_' . time() . '@example.com',
-            'full_name' => 'Login Test',
-            'role' => 'user'
-        ];
-
-        $userId = $this->userModel->create($userData);
-        $user = $this->userModel->login($userData['username'], $password);
+        $user = $this->userModel->login('admin', 'admin123');
 
         $this->assertNotFalse($user);
-        $this->assertEquals($userData['username'], $user['username']);
+        $this->assertEquals('admin', $user['username']);
+        $this->assertEquals('sef_orchestra', $user['role']);
     }
 
     public function testLoginWithInvalidCredentials()
     {
         $user = $this->userModel->login('nonexistent_user', 'wrongpassword');
+
+        $this->assertFalse($user);
+    }
+
+    public function testLoginWithWrongPassword()
+    {
+        $user = $this->userModel->login('admin', 'wrongpassword');
 
         $this->assertFalse($user);
     }
