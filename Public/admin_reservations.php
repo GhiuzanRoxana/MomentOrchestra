@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get pending reservations
 $query = "SELECT 
     r.id_user,
     r.id_event,
@@ -46,7 +45,6 @@ ORDER BY r.reservation_date DESC";
 
 $pendingReservations = $db->query($query)->fetchAll();
 
-// Get confirmed reservations
 $query2 = "SELECT 
     r.id_user,
     r.id_event,
