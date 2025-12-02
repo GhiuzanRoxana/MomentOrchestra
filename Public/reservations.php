@@ -6,11 +6,9 @@ if (!isLoggedIn()) {
     exit;
 }
 
-// ADMIN vede panoul de administrare
 if (isAdmin()) {
     $db = Database::getInstance()->getConnection();
 
-    // Handle actions
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $action = $_POST['action'] ?? '';
         $userId = $_POST['id_user'] ?? '';
@@ -27,7 +25,6 @@ if (isAdmin()) {
         }
     }
 
-    // Get pending reservations
     $query = "SELECT 
         r.id_user,
         r.id_event,
@@ -49,7 +46,6 @@ if (isAdmin()) {
 
     $pendingReservations = $db->query($query)->fetchAll();
 
-    // Get confirmed reservations
     $query2 = "SELECT 
         r.id_user,
         r.id_event,
@@ -72,7 +68,6 @@ if (isAdmin()) {
 
     include '../View/admin_reservations_view.php';
 } else {
-    // USER NORMAL vede rezervările lui
     $reservationModel = new Reservation();
     $reservations = $reservationModel->getByUser($_SESSION['user_id']);
     include '../View/reservations_list_view.php';

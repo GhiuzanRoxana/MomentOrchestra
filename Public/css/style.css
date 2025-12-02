@@ -5,10 +5,10 @@
 }
 
 :root {
-    --primary-color: #000000;        /* Negru pentru header */
-    --secondary-color: #1a1a1a;      /* Negru ușor mai deschis */
+    --primary-color: #000000;       
+    --secondary-color: #1a1a1a;      
     --accent-color: #0f3460;
-    --highlight-color: #00d4ff;      /* ALBASTRU RADIANT (cyan) */
+    --highlight-color: #00d4ff;      
     --text-light: #ffffff;
     --text-dark: #333333;
     --shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -41,7 +41,6 @@ p { margin-bottom: 15px; }
     padding: 20px;
 }
 
-/* ============ HEADER NEGRU ============ */
 .main-header {
     background: #000000;
     box-shadow: var(--shadow);
@@ -78,7 +77,7 @@ p { margin-bottom: 15px; }
 
 .nav-menu a:hover,
 .nav-menu a.active {
-    background-color: var(--highlight-color); /* ALBASTRU */
+    background-color: var(--highlight-color);
     color: #000;
     transform: translateY(-2px);
 }
@@ -147,7 +146,6 @@ p { margin-bottom: 15px; }
     flex-wrap: wrap;
 }
 
-/* ============ BUTOANE ALBASTRE RADIANTE ============ */
 .btn {
     display: inline-block;
     padding: 15px 40px;
@@ -160,9 +158,9 @@ p { margin-bottom: 15px; }
 }
 
 .btn-primary {
-    background-color: var(--highlight-color); /* ALBASTRU */
+    background-color: var(--highlight-color); 
     color: #000;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); /* Glow albastru */
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
 }
 
 .btn-primary:hover {
@@ -205,7 +203,7 @@ section {
     display: block;
     width: 80px;
     height: 4px;
-    background-color: var(--highlight-color); /* ALBASTRU */
+    background-color: var(--highlight-color);
     margin: 20px auto 0;
 }
 
@@ -260,7 +258,7 @@ section {
 }
 
 .events-table thead {
-    background-color: #000000; /* Negru */
+    background-color: #000000;
     color: var(--text-light);
 }
 
@@ -298,7 +296,7 @@ section {
 }
 
 .audio-section {
-    background-color: #1a1a1a; /* Negru */
+    background-color: #1a1a1a; 
     color: var(--text-light);
 }
 
@@ -307,7 +305,7 @@ section {
 }
 
 .audio-section .section-title::after {
-    background-color: var(--highlight-color); /* ALBASTRU */
+    background-color: var(--highlight-color); 
 }
 
 .audio-player {
@@ -347,7 +345,7 @@ section {
 .feature-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    border: 2px solid var(--highlight-color); /* ALBASTRU */
+    border: 2px solid var(--highlight-color);
 }
 
 .feature-icon {
@@ -370,7 +368,7 @@ section {
 
 .footer-section h3 {
     margin-bottom: 15px;
-    color: var(--highlight-color); /* ALBASTRU */
+    color: var(--highlight-color);
 }
 
 .footer-section ul {
@@ -388,7 +386,7 @@ section {
 }
 
 .footer-section a:hover {
-    color: var(--highlight-color); /* ALBASTRU */
+    color: var(--highlight-color); 
 }
 
 .social-links {
@@ -408,7 +406,7 @@ section {
 }
 
 .social-links a:hover {
-    background-color: var(--highlight-color); /* ALBASTRU */
+    background-color: var(--highlight-color); 
     color: #000;
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
