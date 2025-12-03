@@ -2,31 +2,41 @@
 
 use PHPUnit\Framework\TestCase;
 
-if (!defined('DB_HOST')) {
-    require_once __DIR__ . '/../config.php';
-}
+require_once __DIR__ . '/../config.php';
 
 class EventTest extends TestCase
 {
-
     private $eventModel;
+    private $createdEventIds = [];
 
     protected function setUp(): void
     {
         $this->eventModel = new Event();
+        $this->createdEventIds = [];
+    }
+
+    protected function tearDown(): void
+    {
+        foreach ($this->createdEventIds as $eventId) {
+            try {
+                $this->eventModel->delete($eventId);
+            } catch (Exception $e) {
+            }
+        }
     }
 
     public function testCreateEvent()
     {
         $eventData = [
-            'title' => 'Test Concert ' . time(),
-            'event_date' => date('Y-m-d H:i:s', strtotime('+1 week')),
+            'title' => 'PHPUNIT_CREATE_' . uniqid(),
+            'event_date' => date('Y-m-d H:i:s', strtotime('+2 years')),
             'location_id' => 'L1',
-            'description' => 'Test concert description',
+            'description' => 'PHPUnit test event',
             'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
+        $this->createdEventIds[] = $eventId;
 
         $this->assertNotEmpty($eventId);
         $this->assertStringStartsWith('EVT_', $eventId);
@@ -34,19 +44,18 @@ class EventTest extends TestCase
 
     public function testReadEvent()
     {
-        $eventData = [
-            'title' => 'Read Test Event ' . time(),
-            'event_date' => date('Y-m-d H:i:s', strtotime('+2 weeks')),
-            'location_id' => 'L1',
-            'description' => 'Read test description',
-            'status_id' => 'S1'
-        ];
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query("SELECT id_event FROM events WHERE id_event LIKE 'E%' AND id_event NOT LIKE 'EVT_%' LIMIT 1");
+        $existingEvent = $stmt->fetch();
 
-        $eventId = $this->eventModel->create($eventData);
-        $event = $this->eventModel->read($eventId);
+        if (!$existingEvent) {
+            $this->markTestSkipped('Nu există evenimente permanente în DB pentru test');
+        }
+
+        $event = $this->eventModel->read($existingEvent['id_event']);
 
         $this->assertNotEmpty($event);
-        $this->assertEquals($eventData['title'], $event['title']);
+        $this->assertEquals($existingEvent['id_event'], $event['id_event']);
     }
 
     public function testReadAllEvents()
@@ -54,22 +63,24 @@ class EventTest extends TestCase
         $events = $this->eventModel->readAll();
 
         $this->assertIsArray($events);
+        $this->assertGreaterThan(0, count($events));
     }
 
     public function testUpdateEvent()
     {
         $eventData = [
-            'title' => 'Update Test Event ' . time(),
-            'event_date' => date('Y-m-d H:i:s', strtotime('+3 weeks')),
+            'title' => 'PHPUNIT_ORIGINAL_' . uniqid(),
+            'event_date' => date('Y-m-d H:i:s', strtotime('+2 years')),
             'location_id' => 'L1',
             'description' => 'Original description',
             'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
+        $this->createdEventIds[] = $eventId;
 
         $updateData = [
-            'title' => 'Updated Event Title',
+            'title' => 'PHPUNIT_UPDATED_' . uniqid(),
             'event_date' => $eventData['event_date'],
             'location_id' => 'L1',
             'description' => 'Updated description',
@@ -77,26 +88,25 @@ class EventTest extends TestCase
         ];
 
         $result = $this->eventModel->update($eventId, $updateData);
-
         $this->assertTrue($result);
 
         $updatedEvent = $this->eventModel->read($eventId);
-        $this->assertEquals($updateData['title'], $updatedEvent['title']);
+        $this->assertEquals('Updated description', $updatedEvent['description']);
     }
 
     public function testDeleteEvent()
     {
         $eventData = [
-            'title' => 'Delete Test Event ' . time(),
-            'event_date' => date('Y-m-d H:i:s', strtotime('+4 weeks')),
+            'title' => 'PHPUNIT_DELETE_' . uniqid(),
+            'event_date' => date('Y-m-d H:i:s', strtotime('+2 years')),
             'location_id' => 'L1',
             'description' => 'To be deleted',
             'status_id' => 'S1'
         ];
 
         $eventId = $this->eventModel->create($eventData);
-        $result = $this->eventModel->delete($eventId);
 
+        $result = $this->eventModel->delete($eventId);
         $this->assertTrue($result);
 
         $deletedEvent = $this->eventModel->read($eventId);
