@@ -45,11 +45,11 @@ class EventTest extends TestCase
     public function testReadEvent()
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->query("SELECT id_event FROM events WHERE id_event LIKE 'E%' AND id_event NOT LIKE 'EVT_%' LIMIT 1");
+        $stmt = $db->query("SELECT id_event FROM events WHERE id_event NOT LIKE 'EVT_%' LIMIT 1");
         $existingEvent = $stmt->fetch();
 
         if (!$existingEvent) {
-            $this->markTestSkipped('Nu există evenimente permanente în DB pentru test');
+            $this->markTestSkipped('Nu există evenimente permanente în DB');
         }
 
         $event = $this->eventModel->read($existingEvent['id_event']);

@@ -55,11 +55,11 @@ class ReservationTest extends TestCase
         $uniqueId = uniqid();
 
         $userData = [
-            'username' => 'phpunit_user_' . $uniqueId,
+            'username' => 'phpunit_res_' . $uniqueId,
             'password' => 'test123',
-            'email' => 'phpunit_' . $uniqueId . '@test.ro',
+            'email' => 'phpunit_res_' . $uniqueId . '@test.ro',
             'role' => 'user',
-            'full_name' => 'PHPUnit Test User'
+            'full_name' => 'PHPUnit Reservation Test'
         ];
         $userId = $this->userModel->create($userData);
         $this->createdUserIds[] = $userId;
@@ -68,7 +68,7 @@ class ReservationTest extends TestCase
             'title' => 'PHPUNIT_RES_EVENT_' . $uniqueId,
             'event_date' => date('Y-m-d H:i:s', strtotime('+2 years')),
             'location_id' => 'L1',
-            'description' => 'PHPUnit reservation test event',
+            'description' => 'PHPUnit reservation test',
             'status_id' => 'S1'
         ];
         $eventId = $this->eventModel->create($eventData);
@@ -79,7 +79,7 @@ class ReservationTest extends TestCase
             INSERT INTO reservations (id_user, id_event, price, status, event_type, details) 
             VALUES (?, ?, ?, 'In asteptare', ?, ?)
         ");
-        $result = $stmt->execute([$userId, $eventId, 2000, 'Nuntă', 'PHPUnit test reservation']);
+        $result = $stmt->execute([$userId, $eventId, 2000, 'Nuntă', 'PHPUnit test']);
 
         $this->assertTrue($result);
         $this->createdReservations[] = ['id_user' => $userId, 'id_event' => $eventId];

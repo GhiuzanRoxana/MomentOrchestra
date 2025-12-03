@@ -7,10 +7,22 @@ require_once __DIR__ . '/../config.php';
 class UserTest extends TestCase
 {
     private $userModel;
+    private $createdUserIds = [];
 
     protected function setUp(): void
     {
         $this->userModel = new User();
+        $this->createdUserIds = [];
+    }
+
+    protected function tearDown(): void
+    {
+        foreach ($this->createdUserIds as $userId) {
+            try {
+                $this->userModel->delete($userId);
+            } catch (Exception $e) {
+            }
+        }
     }
 
     public function testReadUser()
@@ -18,7 +30,7 @@ class UserTest extends TestCase
         $allUsers = $this->userModel->readAll();
 
         if (empty($allUsers)) {
-            $this->markTestSkipped('Nu există useri în DB pentru test');
+            $this->markTestSkipped('Nu există useri în DB');
         }
 
         $firstUser = $allUsers[0];
@@ -50,7 +62,7 @@ class UserTest extends TestCase
         $allUsers = $this->userModel->readAll();
 
         if (empty($allUsers)) {
-            $this->markTestSkipped('Nu există useri în DB pentru test');
+            $this->markTestSkipped('Nu există useri în DB');
         }
 
         $testUser = $allUsers[0];
@@ -60,16 +72,16 @@ class UserTest extends TestCase
 
         $testData = [
             'username' => $testUser['username'],
-            'email' => 'newemail_test@test.ro',
-            'full_name' => 'Test Updated Name'
+            'email' => 'phpunit_temp@test.ro',
+            'full_name' => 'PHPUnit Temp Name'
         ];
 
         $result = $this->userModel->update($userId, $testData);
         $this->assertTrue($result);
 
         $updatedUser = $this->userModel->read($userId);
-        $this->assertEquals('newemail_test@test.ro', $updatedUser['email']);
-        $this->assertEquals('Test Updated Name', $updatedUser['full_name']);
+        $this->assertEquals('phpunit_temp@test.ro', $updatedUser['email']);
+        $this->assertEquals('PHPUnit Temp Name', $updatedUser['full_name']);
 
         $resetData = [
             'username' => $testUser['username'],
@@ -82,11 +94,11 @@ class UserTest extends TestCase
     public function testDeleteUser()
     {
         $testData = [
-            'username' => 'testuser_' . time(),
+            'username' => 'phpunit_delete_' . uniqid(),
             'password' => 'test123',
-            'email' => 'test_' . time() . '@test.ro',
+            'email' => 'phpunit_delete_' . uniqid() . '@test.ro',
             'role' => 'user',
-            'full_name' => 'Test User Temporary'
+            'full_name' => 'PHPUnit Delete Test'
         ];
 
         $userId = $this->userModel->create($testData);
@@ -106,19 +118,20 @@ class UserTest extends TestCase
 
     public function testLoginWithValidCredentials()
     {
-        $timestamp = time();
-        $testUsername = 'logintest_' . $timestamp;
-        $testPassword = 'testpass123';
+        $uniqueId = uniqid();
+        $testUsername = 'phpunit_login_' . $uniqueId;
+        $testPassword = 'test123';
 
         $testData = [
             'username' => $testUsername,
             'password' => $testPassword,
-            'email' => 'logintest_' . $timestamp . '@test.ro',
+            'email' => 'phpunit_login_' . $uniqueId . '@test.ro',
             'role' => 'user',
-            'full_name' => 'Login Test User'
+            'full_name' => 'PHPUnit Login Test'
         ];
 
         $userId = $this->userModel->create($testData);
+        $this->createdUserIds[] = $userId;
         $this->assertNotEmpty($userId);
 
         $user = $this->userModel->login($testUsername, $testPassword);
@@ -127,13 +140,11 @@ class UserTest extends TestCase
         $this->assertIsArray($user);
         $this->assertEquals($testUsername, $user['username']);
         $this->assertArrayHasKey('id_user', $user);
-
-        $this->userModel->delete($userId);
     }
 
     public function testLoginWithInvalidCredentials()
     {
-        $user = $this->userModel->login('usercare_nu_exista_niciodata', 'parola_gresita');
+        $user = $this->userModel->login('phpunit_nonexistent_' . uniqid(), 'wrong_password');
 
         $this->assertFalse($user);
     }
@@ -144,11 +155,11 @@ class UserTest extends TestCase
 
         if (!empty($allUsers)) {
             $existingUsername = $allUsers[0]['username'];
-            $user = $this->userModel->login($existingUsername, 'parola_gresita_sigur_1234567890');
+            $user = $this->userModel->login($existingUsername, 'phpunit_wrong_pass_' . uniqid());
 
             $this->assertFalse($user);
         } else {
-            $this->markTestSkipped('Nu există useri în DB pentru test');
+            $this->markTestSkipped('Nu există useri în DB');
         }
     }
 }
